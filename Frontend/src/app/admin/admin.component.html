@@ -1,0 +1,36 @@
+<div class="body">
+  <div class="sidebar">
+    <ul>
+      <li>
+        <select [(ngModel)] = "this.periodo" (change)="this.cambioPeriodo()" name="" id="" style="width: 100%;">
+          <option *ngFor = "let p of listaPeriodos" [value]="p">{{p}}</option>
+        </select>
+      </li>
+      <li>
+        <button class="btn btn-primary boton-menu"  [disabled] = "this.habilitarCalendario()" (click)="this.abrirCalendario()">
+          Calendario
+        </button>
+      </li>
+      <li>
+        <button class="btn btn-primary boton-menu" [disabled] = "this.habilitarSeleccion()" [routerLink]="['Seleccion']">
+          Seleccion
+        </button>
+      </li>
+      <li>
+        <button class="btn btn-primary boton-menu" (click)="this.abrirAsistencia()" [disabled] = "this.habilitarAsistencia()">Asistencia</button>
+      </li>
+      <li>
+        <button
+          class="btn btn-primary boton-menu"
+          [routerLink]="['Liquidacion']"
+          [disabled] = "this.habilitarLiquidacion()"
+        >
+          Liquidacion Estudiantes
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="ventana">
+    <router-outlet></router-outlet>
+  </div>
+</div>

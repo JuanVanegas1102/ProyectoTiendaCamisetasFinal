@@ -1,0 +1,24 @@
+.boton-menu{
+    display: block;
+    width: 100% ;
+}
+
+ul{
+    list-style-type:none;
+    padding: 0px;
+}
+
+.body{
+    display: flex;
+    flex-wrap: nowrap;
+    margin:50px auto;
+    width: 100%;
+    margin: 0px;
+    justify-content: left;
+    padding:10px 30px
+}
+
+.ventana{
+    border: solid gray 1px;
+    width: inherit;
+}

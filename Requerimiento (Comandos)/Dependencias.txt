@@ -1,0 +1,7 @@
+-- instalacion pdfmarker
+
+npm i pdfmake
+
+-- instalacion notiflix
+
+npm i notiflix

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" contant="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/a2dd6045c4.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      type="text/css"
+    />
+    <title>Inicio de sesión y Registro</title>
+  </head>
+  <body>
+    <div class="fondo">
+      <div class="contenedor-form registrar">
+        <h2>Registrarse</h2>
+        <form novalidate [formGroup]="formulario">
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+            <input type="text" formControlName="nombreUsuario" />
+            <label for="#">Nombre de usuario</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="email" formControlName="correo" />
+            <label for="#">E-mail</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-lock"></i></span>
+            <input type="password" formControlName="contrasena" />
+            <label for="#">Contraseña</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+            <input type="text" formControlName="nombres" />
+            <label for="#">Nombres</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+            <input type="text" formControlName="apellidos" />
+            <label for="#">Apellidos</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+            <input type="text" formControlName="telofono" />
+            <label for="#">Telefono</label>
+          </div>
+          <div class="recordar">
+            <label for="#">
+              <input type="checkbox" />Acepto los terminos y condiciones
+            </label>
+          </div>
+          <button
+            [disabled]="!formulario.valid"
+            class="btn"
+            (click)="enviarFormulario()"
+          >
+            Registrarme
+          </button>
+          <div class="registrar">
+            <p>
+              ¿Tienes una cuenta?
+              <a href="#" routerLink="/login" class="login-link"
+                >Iniciar Sesión</a
+              >
+            </p>
+          </div>
+        </form>
+        <div
+          *ngIf="this.hayError"
+          class="alert alert-danger error"
+          role="alert"
+        >
+          {{ this.mensajeError }}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

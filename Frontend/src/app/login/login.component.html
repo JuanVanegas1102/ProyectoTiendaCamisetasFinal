@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" contant="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/a2dd6045c4.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      type="text/css"
+    />
+    <title>Inicio de sesión y Registro</title>
+  </head>
+  <body>
+    <header>
+      <a class="nav-link" routerLink="/">Volver al inicio</a>
+    </header>
+
+    <div class="fondo">
+      <div class="contenedor-form login">
+        <h2>Iniciar Sesión</h2>
+        <form [formGroup]="formulario">
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="correo" />
+            <label for="#">E-mail</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-lock"></i></span>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="contrasena"
+            />
+            <label for="#">Contraseña</label>
+          </div>
+          <div class="recordar">
+            <label for="#"><input type="checkbox" />Recordar</label>
+            <a href="#">Olvide la contraseña?</a>
+          </div>
+        </form>
+        <button
+          [disabled]="!formulario.valid"
+          class="btn btn-primary submit-button"
+          (click)="revisarLogIn()"
+        >
+          Iniciar Sesion
+        </button>
+        <div class="registrar">
+          <p>
+            ¿No tienes cuenta?
+            <a href="#" class="registrar-link" routerLink="/registro"
+              >Registrate aquí</a
+            >
+          </p>
+        </div>
+        <div
+          *ngIf="this.hayError"
+          class="alert alert-danger error"
+          role="alert"
+        >
+          {{ this.mensajeError }}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
