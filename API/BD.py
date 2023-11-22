@@ -20,14 +20,21 @@ class ConexionBD:
                 return True
         return False
     
+    def maximoUsuario():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port=1521, service_name="xe")
+        cursor = connection.cursor()
+        query = "SELECT MAX(idUsuario)+1 FROM usuario"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
+    
     def agregarUsuario(nombreUsuario, contrasena, correo, nombres, apellidos, telefono):
         oracledb.init_oracle_client()
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port=1521, service_name="xe")
         cursor = connection.cursor()
-        primera_query = "SELECT MAX(idUsuario)+1 FROM usuario"
-        primer_result = cursor.execute(primera_query)
-        
-        query = "INSERT INTO usuario values('"+str(primer_result)+"','"+ConexionBD.tipoUsuario+"','"+nombreUsuario+"','"+contrasena+"','"+nombres+"','"+apellidos+"','"+correo+"','"+telefono+"')"
+        print(ConexionBD.maximoUsuario())
+        query = "INSERT INTO usuario values('"+str(ConexionBD.maximoUsuario())+"','"+ConexionBD.tipoUsuario+"','"+nombreUsuario+"','"+contrasena+"','"+nombres+"','"+apellidos+"','"+correo+"','"+telefono+"')"
         result = cursor.execute(query)
         connection.commit()
         connection.close()

@@ -29,10 +29,19 @@ export class RegistroComponent {
   }
 
   enviarFormulario(){
-    console.log(this.formulario.value)
-    this.hayError = false
+    
+    const datosFormulario = {
+      nombreUsuario:this.formulario.value.nombreUsuario,
+      contrasena:this.formulario.value.contrasena,
+      correo:this.formulario.value.correo,
+      nombres:this.formulario.value.nombres,
+      apellidos:this.formulario.value.apellidos,
+      telefono:this.formulario.value.telofono
+    }
 
-    this.http.post("http://127.0.0.1:8000/agregarUsuario",this.formulario.value).subscribe(
+    this.hayError = false
+    console.log(datosFormulario)
+    this.http.post("http://127.0.0.1:8000/agregarUsuario",datosFormulario).subscribe(
       {
         next: res => this.mostrarError("Envio exitoso!!!!"),
         error: err => this.mostrarError("Error al enviar el formulario")
