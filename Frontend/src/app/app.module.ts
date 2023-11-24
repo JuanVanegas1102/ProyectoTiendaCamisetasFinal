@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
+import { CreacionEstampaComponent } from './creacion-estampa/creacion-estampa.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { RegistroComponent } from './registro/registro.component';
         InicioPaginaComponent,
         AdminComponent,
         LoginComponent,
-        RegistroComponent
+        RegistroComponent,
+        CreacionEstampaComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

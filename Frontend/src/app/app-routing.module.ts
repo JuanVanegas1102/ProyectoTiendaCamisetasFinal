@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
+import { CreacionEstampaComponent } from './creacion-estampa/creacion-estampa.component';
 
 const routes: Routes = [
   {path:'',component:InicioPaginaComponent},
   {path:'login', component:LoginComponent},
   {path:'registro', component:RegistroComponent},
+  {path:'creacionEstampa', component:CreacionEstampaComponent},
   {
     path:'Admin', component:AdminComponent,
     children:[
