@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Evento } from '../modelos/evento';
 import { HttpClient } from '@angular/common/http';
-import { estudianteResponse } from '../modelos/responses';
+import { estampaResponse } from '../modelos/responses';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CalendarioService {
   constructor(private http: HttpClient) { }
 
   actualizarCalendario(periodo: string) {
-    this.http.get<estudianteResponse>("http://127.0.0.1:8000/calendario/" + periodo).subscribe(
+    this.http.get<estampaResponse>("http://127.0.0.1:8000/calendario/" + periodo).subscribe(
       {
         next: (res) => {
           this.calendario = []

@@ -22,11 +22,20 @@ class usuario(BaseModel):
     apellidos:str
     telefono:str
 
-class selecccion(BaseModel):
-    idobra:str
-    conseccalendario:int
-    codestudiante:str
+class estampa(BaseModel):
+    idestampa:str
+    nombre:str
+    descripcion:str
+    imagen1:str
+    imagen2:str
+    imagen3:str
+    calificacion:int
+    precio:int
+    estado:int
 
+class categoria(BaseModel):
+    categoria: int
+    
 class peticionInactivacionPeriodo(BaseModel):
     periodo:str
     actividad:str
@@ -68,10 +77,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/listaEstudiantes')
+@app.get('/listaEstampas')
 async def root():
-    result = ConexionBD.consultarEstudiantes()
+    result = ConexionBD.consultarEstampas()
     return {"data":result}
+
+@app.post('/numCategoria')
+async def root(s:categoria):
+    result = ConexionBD.consultarCategoria(s.categoria)
+    return {"message":"hola mi loco"}
 
 @app.get('/listaTallas')
 async def root():
@@ -88,6 +102,16 @@ async def root(s:usuario):
     ConexionBD.agregarUsuario(s.nombreUsuario, s.contrasena, s.correo, s.nombres, s.apellidos, s.telefono)
     return {"message":"hola mi loco"}
 
+@app.post('/validate')
+async def root(l:login):
+    valid = ConexionBD.validarLogin(l.correo,l.contrasena)
+    if valid:
+        return {"message":"logeado correctamente",
+                "codigo" : 202}
+    else:
+        return {"message":"El Correo o la contraseña son incorrectos, intente nuevamente",
+                "codigo" : 404}
+        
 @app.post('/enviarCorreo')
 async def root(s:correo):
     CorreoSer.enviarCorreo(s.asunto,s.contenidos,s.remitente)
@@ -125,11 +149,6 @@ async def root():
     result = ConexionBD.periodoInactivo()
     return {"data":result}
 
-@app.post('/registrarSeleccion')
-async def root(s:selecccion):
-    ConexionBD.agregarParticipacion(str(ConexionBD.maxIdParticipacion()[0][0]),s.idobra,str(s.conseccalendario),s.codestudiante)
-    return {"message":"hola mi loco"}
-
 @app.post('/inactivarCalendario')
 async def root(peticion:InactivarConvocatoria):
     print(peticion)
@@ -151,12 +170,3 @@ async def root():
     result = ConexionBD.obtenerPeriodos()
     return {"data":result}
     
-@app.post('/validate')
-async def root(l:login):
-    valid = ConexionBD.validarLogin(l.correo,l.contrasena)
-    if valid:
-        return {"message":"logeado correctamente",
-                "codigo" : 202}
-    else:
-        return {"message":"El Correo o la contraseña son incorrectos, intente nuevamente",
-                "codigo" : 404}

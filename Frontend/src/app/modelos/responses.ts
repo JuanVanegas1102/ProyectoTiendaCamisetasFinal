@@ -1,4 +1,4 @@
-export interface estudianteResponse{
+export interface estampaResponse{
     data:Array<any>
 }
 

@@ -4,7 +4,7 @@ import { CalendarioService } from '../servicios/calendario.service';
 import { Evento } from '../modelos/evento';
 import { HttpClient } from '@angular/common/http';
 import { estudianteConResponse } from '../modelos/responses';
-import { estudianteResponse } from '../modelos/responses';
+import { estampaResponse } from '../modelos/responses';
 import { AdminService } from '../admin.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class AdminComponent {
       this.router.navigate(['login'])
     }
     this.calenService.actualizarCalendario(this.periodo)
-    this.http.get<estudianteResponse>("http://127.0.0.1:8000/obtenerPeriodos").subscribe((res)=>{
+    this.http.get<estampaResponse>("http://127.0.0.1:8000/obtenerPeriodos").subscribe((res)=>{
       for (let p of res.data){
         this.listaPeriodos.push(p[0])
       }

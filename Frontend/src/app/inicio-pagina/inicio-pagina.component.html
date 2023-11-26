@@ -303,14 +303,28 @@
       <div class="container-fluid">
         <div class="inner-sec-shop px-lg-4 px-3">
           <h3 class="tittle-w3layouts my-lg-4 my-4">Lo más vendido</h3>
+          <div class="select">
+            <select
+              id="categoria"
+              name="categoria"
+              (change)="cambiarCatalogo($event)"
+            >
+              <option value="1" selected>Tematica</option>
+              <option value="2">Rating</option>
+              <option value="3">Autor</option>
+            </select>
+          </div>
           <div class="row">
             <!-- /womens -->
-            <div class="col-md-3 product-men women_two">
+            <div
+              class="col-md-3 product-men women_two"
+              *ngFor="let estampa of listaEstampas"
+            >
               <div class="product-googles-info googles">
                 <div class="men-pro-item">
                   <div class="men-thumb-item">
                     <img
-                      [src]="images[1]"
+                      src="{{ estampa[3] }}"
                       alt="Random second slide"
                       class="img-fluid"
                       alt=""
@@ -327,42 +341,20 @@
                       <div class="grid_meta">
                         <div class="product_price">
                           <h4>
-                            <a href="#">Farenheit (Grey)</a>
+                            <a href="#">{{ estampa[1] }}</a>
+                          </h4>
+                          <h4>
+                            <a href="#">{{ estampa[6] }}</a>
                           </h4>
                           <div class="grid-price mt-2">
-                            <span class="money">$575.000</span>
+                            <span class="money">${{ estampa[5] }}</span>
                           </div>
                         </div>
-                        <ul class="stars">
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i
-                                class="fa fa-star-half-o"
-                                aria-hidden="true"
-                              ></i>
-                            </a>
-                          </li>
-                        </ul>
+                        <div class="calificacion">
+                          <h4>
+                            <a href="#">Calificacion: {{ estampa[4] }}/100</a>
+                          </h4>
+                        </div>
                       </div>
                       <div class="googles single-item hvr-outline-out">
                         <form action="#" method="post">
