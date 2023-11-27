@@ -909,6 +909,16 @@ input.checked {
     font-size: 0.8em;
     font-family: 'Inconsolata', monospace;
 }
+.nombreEstampa h4 a{
+	color: #ff7b00;
+    font-size: 1.0em;
+    font-family: 'Inconsolata', monospace;
+}
+.autorEstampa h4 a{
+	color: #5c8300;
+    font-size: 0.8em;
+    font-family: 'Inconsolata', monospace;
+}
 
 /*-- //customer --*/
 

@@ -23,45 +23,16 @@ class usuario(BaseModel):
     telefono:str
 
 class estampa(BaseModel):
-    idestampa:str
     nombre:str
     descripcion:str
     imagen1:str
     imagen2:str
     imagen3:str
-    calificacion:int
-    precio:int
-    estado:int
+    precio:float
+    idtematica: str
 
 class categoria(BaseModel):
     categoria: int
-    
-class peticionInactivacionPeriodo(BaseModel):
-    periodo:str
-    actividad:str
-
-class InactivarConvocatoria(BaseModel):
-    conseccalendario:int
-
-class listaAsistencia(BaseModel):
-    data:list
-    event:int
-
-def reasignarConvocatorio():
-    resultado = []
-    listEstudiantes = ConexionBD.consultarEstudianteConvocatoria()
-    listInstrumentos = ConexionBD.obtenerInstrumentos()
-
-    for estudiante in listEstudiantes:
-        for instrumento in listInstrumentos:
-            if estudiante[2] == instrumento[0]:
-                resultado.append(instrumento + estudiante)
-                listInstrumentos.remove(instrumento)
-
-                if len(listInstrumentos) == 0:
-                    break
-
-    return resultado
 
 app = FastAPI()
 
@@ -92,14 +63,19 @@ async def root():
     result = ConexionBD.consultarTallas()
     return {"data":result}
 
-@app.get('/listaUnidades')
+@app.get('/listaTematica')
 async def root():
-    result = ConexionBD.consultarUnidades()
+    result = ConexionBD.consultarTematica()
     return {"data":result}
 
 @app.post('/agregarUsuario')
 async def root(s:usuario):
     ConexionBD.agregarUsuario(s.nombreUsuario, s.contrasena, s.correo, s.nombres, s.apellidos, s.telefono)
+    return {"message":"hola mi loco"}
+
+@app.post('/agregarEstampa')
+async def root(s:estampa):
+    ConexionBD.agregarEstampa(s.nombre,s.descripcion,s.imagen1,s.imagen2,s.imagen3,s.precio,s.idtematica)
     return {"message":"hola mi loco"}
 
 @app.post('/validate')
@@ -117,56 +93,3 @@ async def root(s:correo):
     CorreoSer.enviarCorreo(s.asunto,s.contenidos,s.remitente)
     return {"message":"hola mi loco"}
 
-@app.get('/obtenerCalendario/{periodo}')
-async def root(periodo:str):
-    args = periodo.split('-')
-    result = ConexionBD.consultarCalendario(args[0],args[1])
-    return {"data":result}
-
-@app.get('/listaEstudianteCon')
-async def root():
-    result = reasignarConvocatorio()
-    return {"data":result}
-
-@app.get('/listaLiquidacion/{periodo}')
-async def root(periodo:str):
-    result = ConexionBD.consultarLiquidacion(periodo)
-    return {"data":result}
-
-@app.post('/inactivarAct')
-async def root(peticion:peticionInactivacionPeriodo):
-    print(peticion)
-    result = ConexionBD.inactivarEventoPeriodo(peticion.actividad,peticion.periodo)
-    return {"message": "completado"}
-
-@app.get('/seleccionados/{periodo}')
-async def root(periodo:str):
-    result = ConexionBD.obtenerSeleccionados(periodo)
-    return {"data":result}
-
-@app.get('/periodoInactivo')
-async def root():
-    result = ConexionBD.periodoInactivo()
-    return {"data":result}
-
-@app.post('/inactivarCalendario')
-async def root(peticion:InactivarConvocatoria):
-    print(peticion)
-    result = ConexionBD.inactivarConvocatoria(str(peticion.conseccalendario))
-    return {"message": "completado"}
-
-@app.get('/calendario/{periodo}')
-async def root(periodo):
-    result = ConexionBD.obtenerCalendario(periodo)
-    return {"data":result}
-
-@app.post('/subirAsistencia')
-async def root(body:listaAsistencia):
-    for e in body.data:
-        ConexionBD.subirAsistencia(e,body.event)    
-
-@app.get('/obtenerPeriodos')
-async def root():
-    result = ConexionBD.obtenerPeriodos()
-    return {"data":result}
-    

@@ -11,10 +11,14 @@ insert into talla values('XL');
 insert into tipoUsuario values('001','Administrador');
 insert into tipoUsuario values('002','Artista');
 
--- Se inserta usuario de Prueba
+-- Se insertan usuarios de Prueba
 
 insert into usuario values('1','001','Juanito1102','admin','Juan Esteban','Vanegas Rodriguez','juantheboss3@gmail.com','1234512345');
 insert into usuario values('2','002','DaVinciArtist','12345','Leonardo','DaVinci','leonardo1@gmail.com','3112252521');
+insert into usuario values('3','002','David1Paint','12346','David Santiago','Pinzon Mahecha','david1@gmail.com','3111415116');
+insert into usuario values('4','002','Percy2Master','contrasena','David Leonardo','Florez Percy','elpanda@gmail.com','3115496096');
+insert into usuario values('5','002','MichelangeloTurtle','password','Michelangelo','Buonarroti','michelangelo1475@gmail.com','3162662521');
+insert into usuario values('6','002','KojimaHill','stranding','Hideo','Kojima','silenthill@gmail.com','3112223421');
 
 -- Se insertan tematicas para las estampas
 
@@ -24,6 +28,7 @@ insert into tematica values('003','Escolar','Regresa a tu colegio con el mejor e
 insert into tematica values('004','Aesthetic','Minimalista pero original, la moda que ha surgido en los ultimos años.');
 insert into tematica values('005','Verano','Disfrutar del sol radiante y la playa, mientras te tomas un refresco y disfrutas del viento.');
 insert into tematica values('006','Ink-art','Al estilo clasico, blanco y negro, con diferentes estilos de silueta.');
+insert into tematica values('007','Manga-Japones','Al estilo clasico, blanco y negro, con diferentes estilos de silueta.');
 
 
 -- Se insertan materiales para las camisetas
@@ -56,7 +61,12 @@ insert into modelocamiseta values('CAM016','PAL','Raglan','https://www.tmaker.my
 
 -- Se inserta estampa de prueba
 
-insert into estampa values('EST001','2','004','CartoonDinosaur','Estampado inferior de ocho amigos dinosaurios de colores, felices celebrando.','https://m.media-amazon.com/images/I/81+zgyEJyPL._AC_SY550_.jpg','https://m.media-amazon.com/images/I/61gadxDE06L._AC_SY550_.jpg','https://m.media-amazon.com/images/I/81LdwAo82JL._AC_SY550_.jpg','75','57000.00','Activo');
-insert into estampa values('EST002','2','004','Cute Cats','Estampado inferior de gatos de diferentes colores, al estilo de dibujo japones.','https://i.etsystatic.com/37938789/r/il/82fa06/5365543797/il_794xN.5365543797_suzu.jpg','https://i.etsystatic.com/37938789/r/il/66e35a/5317370070/il_794xN.5317370070_cco9.jpg','https://i.etsystatic.com/37938789/r/il/2aaa16/5317370102/il_794xN.5317370102_sbnc.jpg','90','80000.50','Activo');
+insert into estampa values('1','2','004','CartoonDinosaur','Estampado inferior de ocho amigos dinosaurios de colores, felices celebrando.','https://m.media-amazon.com/images/I/81+zgyEJyPL._AC_SY550_.jpg','https://m.media-amazon.com/images/I/61gadxDE06L._AC_SY550_.jpg','https://m.media-amazon.com/images/I/81LdwAo82JL._AC_SY550_.jpg','75','57000.00','Activo');
+insert into estampa values('2','2','004','Cute Cats','Estampado inferior de gatos de diferentes colores, al estilo de dibujo japones.','https://i.etsystatic.com/37938789/r/il/82fa06/5365543797/il_794xN.5365543797_suzu.jpg','https://i.etsystatic.com/37938789/r/il/66e35a/5317370070/il_794xN.5317370070_cco9.jpg','https://i.etsystatic.com/37938789/r/il/2aaa16/5317370102/il_794xN.5317370102_sbnc.jpg','90','80000.50','Activo');
+insert into estampa values('3','3','007','Cat Oishii Ramen','Estampado de gato viejo japones comiendo ramen, con anagramas japoneses.','https://m.media-amazon.com/images/I/71iGVKMbiiL._AC_SY741_.jpg','https://m.media-amazon.com/images/I/71Pj+toRNfL._AC_SY741_.jpg','https://m.media-amazon.com/images/I/81lW3lE5mML._AC_SY741_.jpg','95','45000.00','Activo');
+insert into estampa values('4','4','003','Extra Fun Flower','Estampado de flores y cerezas con cara feliz, con frase extra fun.','https://img.ltwebstatic.com/images3_pi/2023/05/03/16830770227eb913df41b0946d329525d506c25f33.webp','https://img.ltwebstatic.com/images3_pi/2023/05/03/1683077027995566b18488db7a7bc5e5d2373a5e19.webp','https://img.ltwebstatic.com/images3_pi/2023/05/03/168307703059fc2d51f561a15ec88dc6485750aa49.webp','60','34000','Activo');
+insert into estampa values('5','5','005','Beach Bear XX','Oso con ojos en X, sentado en la playa, relleno rayado.','https://img.ltwebstatic.com/images3_pi/2022/12/20/1671519578a6e5efb70e875f7f2ddf1b5e8aa63d65.webp','https://img.ltwebstatic.com/images3_pi/2022/12/20/16715195829411775880b4b72cd8524d1091667b7e.webp','https://img.ltwebstatic.com/images3_pi/2022/12/20/1671519580ae23d8f84b297a6ffa9e128502564291.webp','40','78950','Activo');
+insert into estampa values('6','6','006','Enjoy the moment','Cara feliz color amarillo, con frase enjoy the moment.','https://m.media-amazon.com/images/I/71k3ttgVjtL._SX679_.jpg','https://m.media-amazon.com/images/I/41aZQB0zVSL._SX679_.jpg','https://m.media-amazon.com/images/I/41mS7vkdXFL._SY741_.jpg','81','50500','Activo');
+insert into estampa values('7','3','007','Christmas T-Rex','Tyrannosaurus Rex poniendo una estrella en la punta del arbol.','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star-green-apple-t-shirt-teeturtle-full-1-1000x1000.jpg','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star-green-apple-mens-t-shirt-teeturtle-1-1000x1000.jpg','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star_800x800_SEPS-1000x1000.jpg','87','42370','Activo');
 
 commit;

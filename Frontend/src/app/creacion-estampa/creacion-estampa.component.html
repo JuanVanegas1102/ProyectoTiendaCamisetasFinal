@@ -1,1 +1,99 @@
-<p>creacion-estampa works!</p>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registro de Estampas</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a class="nav-link" routerLink="/">Volver al inicio</a>
+    </header>
+
+    <div class="fondo">
+      <div class="contenedor-form login">
+        <h2>Registrar Estampa</h2>
+        <form novalidate [formGroup]="formulario">
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="nombre" />
+            <label for="#">Nombre de la estampa</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="descripcion"
+            />
+            <label for="#">Descripcion breve de la estampa</label>
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="imagen1" />
+            <label for="#"
+              >Imagen Principal de la estampa (URL terminado en .jpg .png
+              .webp)</label
+            >
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="imagen2" />
+            <label for="#"
+              >Imagen secundaria de la estampa (URL terminado en .jpg .png
+              .webp)</label
+            >
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="imagen3" />
+            <label for="#"
+              >Imagen secundaria de la estampa (URL terminado en .jpg .png
+              .webp)</label
+            >
+          </div>
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-envelope"></i></span>
+            <input type="text" class="form-control" formControlName="precio" />
+            <label for="#">Precio de venta de la estampa</label>
+          </div>
+          <div class="contenedor-select">
+            <label for="#">Tematica: </label>
+            <select
+              id="categoria"
+              name="categoria"
+              formControlName="idtematica"
+            >
+              <option [ngValue]="null" disabled selected>
+                Selecciona Tematica
+              </option>
+              <option
+                *ngFor="let tematica of listaTematica"
+                [ngValue]="tematica[0]"
+              >
+                {{ tematica[1] }}
+              </option>
+            </select>
+          </div>
+        </form>
+        <button
+          [disabled]="!formulario.valid"
+          class="btn btn-primary submit-button"
+          (click)="registrarEstampa()"
+        >
+          Registrar estampa
+        </button>
+        <div
+          *ngIf="this.hayError"
+          class="alert alert-danger error"
+          role="alert"
+        >
+          {{ this.mensajeError }}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

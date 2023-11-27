@@ -2,6 +2,10 @@ export interface estampaResponse{
     data:Array<any>
 }
 
+export interface tematicaResponse{
+    data:Array<any>
+}
+
 export interface estudianteConResponse{
     data:Array<any>
 }
