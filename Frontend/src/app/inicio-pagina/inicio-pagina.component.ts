@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { estampaResponse } from '../modelos/responses'; 
 import {CargarScriptsService} from "./../servicios/cargar-scripts.service";
 
@@ -15,7 +16,7 @@ export class InicioPaginaComponent {
   mensajeError:string;
   responseCode:number;
   hayError:boolean = false;
-  constructor(private _CargaScripts:CargarScriptsService, private http:HttpClient)
+  constructor(private _CargaScripts:CargarScriptsService, private http:HttpClient, private router:Router)
   {
     _CargaScripts.Carga(["jquery-2.2.3.min","jquery-ui","jquery.easing.min","jquery.flexslider","jquery.magnific-popup","bootstrap","modernizr-2.6.2.min","classie-search","creditly","demo1-search","easing","easy-responsive-tabs","imagezoom","minicart","move-top","owl.carousel","simplyCountdown"])
   }
@@ -75,4 +76,24 @@ export class InicioPaginaComponent {
         }
       })
   }
+
+  guardarSeleccion(dato){
+    const datoSeleccion = { 
+      seleccion: dato
+    }
+
+    this.hayError = false;
+    console.log(datoSeleccion);
+  
+    this.http.post("http://127.0.0.1:8000/estampaSeleccionada",datoSeleccion).subscribe(
+      {
+        next: res =>{
+          this.mostrarError("Envio exitoso!!!!"),
+          this.router.navigate(['/personalizacionCamiseta'])
+        },
+        error: err => this.mostrarError("Error al enviar la estampa seleccionada")
+      })
+  }
+
+
 }

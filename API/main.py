@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -34,6 +35,9 @@ class estampa(BaseModel):
 class categoria(BaseModel):
     categoria: int
 
+class seleccion(BaseModel):
+    seleccion: str
+
 app = FastAPI()
 
 origins = [
@@ -48,6 +52,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def main():
+   return {"message": "Hello World"}
+
 @app.get('/listaEstampas')
 async def root():
     result = ConexionBD.consultarEstampas()
@@ -58,6 +66,16 @@ async def root(s:categoria):
     result = ConexionBD.consultarCategoria(s.categoria)
     return {"message":"hola mi loco"}
 
+@app.post('/estampaSeleccionada')
+async def root(s:seleccion):
+    result = ConexionBD.estampaSeleccionada(s.seleccion)
+    return {"message":"hola mi loco"}
+
+@app.get('/listaEstampaSeleccionada')
+async def root():
+    result = ConexionBD.consultarEstampaSeleccionada()
+    return {"data":result}
+
 @app.get('/listaTallas')
 async def root():
     result = ConexionBD.consultarTallas()
@@ -66,6 +84,11 @@ async def root():
 @app.get('/listaTematica')
 async def root():
     result = ConexionBD.consultarTematica()
+    return {"data":result}
+
+@app.get('/listaModeloCamiseta')
+async def root():
+    result = ConexionBD.consultarModeloCamiseta()
     return {"data":result}
 
 @app.post('/agregarUsuario')

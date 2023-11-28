@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      ORACLE Version 11g                           */
-/* Created on:     25/11/2023 10:40:15 p. m.                    */
+/* Created on:     28/11/2023 01:52:40 a. m.                    */
 /*==============================================================*/
 
 
@@ -77,8 +77,8 @@ create table DETALLEFACTURA
    IDMODELOCAMISETA     VARCHAR2(10)         not null,
    IDTALLA              VARCHAR2(3)          not null,
    IDESTAMPA            VARCHAR2(6)          not null,
-   CANTIDAD             NUMBER(1),
-   COLORCAMISETA        VARCHAR2(6)          not null,
+   CANTIDAD             NUMBER(5),
+   COLORCAMISETA        VARCHAR2(7)          not null,
    constraint PK_DETALLEFACTURA primary key (IDDETALLEFACTURA)
 );
 
@@ -238,6 +238,7 @@ create table USUARIO
    APELLIDOS            VARCHAR2(60)         not null,
    CORREO               VARCHAR2(60)         not null,
    TELEFONO             NUMBER(10)           not null,
+   CREDITO              NUMBER(9)            not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 

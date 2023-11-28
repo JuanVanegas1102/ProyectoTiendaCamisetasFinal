@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagina Producto</title>
+  </head>
+  <body *ngFor="let estampa of listaEstampas">
+    <header>
+      <h1>Logo</h1>
+      <a class="nav-link" routerLink="/">Volver al inicio</a>
+    </header>
+    <div class="container-title">{{ estampa[1] }}</div>
+    <main>
+      <div class="container-img">
+        <div class="slides slowFade">
+          <div class="slide">
+            <img src="{{ estampa[4] }}" alt="img" />
+          </div>
+          <div class="slide">
+            <img src="{{ estampa[5] }}" alt="img" />
+          </div>
+          <div class="slide">
+            <img src="{{ estampa[6] }}" alt="img" />
+          </div>
+        </div>
+      </div>
+      <div class="container-info-product">
+        <div class="container-price">
+          <span>${{ estampa[8] }}</span>
+          <i class="fa-solid fa-angle-right"></i>
+        </div>
+
+        <div class="container-details-product">
+          <div class="form-group">
+            <label for="colour">Color</label>
+            <input type="color" id="colorpicker" value="#0000ff" />
+          </div>
+          <div class="form-group">
+            <label for="size">Talla</label>
+            <select name="size" id="size" formControlName="idtalla">
+              <option [ngValue]="null" disabled selected>
+                Escoge una talla
+              </option>
+              <option *ngFor="let talla of listaTallas" [ngValue]="talla[0]">
+                {{ talla[0] }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="size">Tipo y Material de la Camiseta</label>
+            <select name="size" id="size" formControlName="idmodelocamiseta">
+              <option [ngValue]="null" disabled selected>
+                Escoge un tipo y material
+              </option>
+              <option
+                *ngFor="let modelocamiseta of listaModeloCamiseta"
+                [ngValue]="modelocamiseta[0]"
+              >
+                {{ modelocamiseta[1] }} - {{ modelocamiseta[3] }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="container-add-cart">
+          <h4>Cantidad</h4>
+          <div class="container-quantity">
+            <input
+              type="number"
+              placeholder="1"
+              value="1"
+              min="1"
+              class="input-quantity"
+            />
+          </div>
+          <button class="btn-add-to-cart">
+            <i class="fa-solid fa-plus"></i>
+            Añadir al carrito
+          </button>
+        </div>
+
+        <div class="container-description">
+          <div class="title-description">
+            <h4>Descripción</h4>
+          </div>
+          <div class="text-description">
+            <p>
+              {{ estampa[2] }}
+            </p>
+          </div>
+        </div>
+
+        <div class="container-additional-information">
+          <div class="title-additional-information">
+            <h4>Autor: {{ estampa[9] }}</h4>
+            <i class="fa-solid fa-chevron-down"></i>
+            <h4>Tematica: {{ estampa[3] }}</h4>
+          </div>
+          <div class="text-additional-information hidden">
+            <p>-----------</p>
+          </div>
+        </div>
+
+        <div class="container-reviews">
+          <div class="title-reviews">
+            <h4>Calificacion: {{ estampa[7] }}</h4>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

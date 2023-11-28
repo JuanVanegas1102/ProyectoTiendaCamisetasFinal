@@ -10,6 +10,7 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { CreacionEstampaComponent } from './creacion-estampa/creacion-estampa.component';
+import { PersonalizacionCamisetaComponent } from './personalizacion-camiseta/personalizacion-camiseta.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { CreacionEstampaComponent } from './creacion-estampa/creacion-estampa.co
         AdminComponent,
         LoginComponent,
         RegistroComponent,
-        CreacionEstampaComponent
+        CreacionEstampaComponent,
+        PersonalizacionCamisetaComponent
     ],
     providers: [],
     bootstrap: [AppComponent],

@@ -9,7 +9,8 @@ class ConexionBD:
     port = 1521
     categoriaCatalogo = 1
     idUsuarioValido: str
-
+    seleccionCatalogo = str
+    
     def validarLogin(correo,contrasena):
         oracledb.init_oracle_client()
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
@@ -47,7 +48,8 @@ class ConexionBD:
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
         print(ConexionBD.maximoUsuario())
-        query = "INSERT INTO usuario values('"+str(ConexionBD.maximoUsuario())+"','"+ConexionBD.tipoUsuario+"','"+nombreUsuario+"','"+contrasena+"','"+nombres+"','"+apellidos+"','"+correo+"','"+telefono+"')"
+        credito = random.randint(80000,30000000)
+        query = "INSERT INTO usuario values('"+str(ConexionBD.maximoUsuario())+"','"+ConexionBD.tipoUsuario+"','"+nombreUsuario+"','"+contrasena+"','"+nombres+"','"+apellidos+"','"+correo+"','"+telefono+"','"+str(credito)+"')"
         result = cursor.execute(query)
         connection.commit()
         connection.close()
@@ -92,7 +94,12 @@ class ConexionBD:
         cursor = connection.cursor()
         ConexionBD.categoriaCatalogo = categoria
         return categoria
-        
+    
+    def estampaSeleccionada(seleccion):
+        ConexionBD.seleccionCatalogo = seleccion
+        print(seleccion)
+        return seleccion
+    
     def consultarEstampas():
         oracledb.init_oracle_client()
         connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
@@ -103,39 +110,32 @@ class ConexionBD:
             result = cursor.fetchall()
             connection.close()
         elif categoria == 1:
-            cursor.execute("select e.idestampa, e.nombre, t.nombre, e.imagen1, e.calificacion, e.precio, u.nombreusuario from estampa e, tematica t, usuario u where e.idtematica = t.idtematica and e.idusuario = u.idusuario order by e.idusuario")
+            cursor.execute("select e.idestampa, e.nombre, t.nombre, e.imagen1, e.calificacion, e.precio, u.nombreusuario from estampa e, tematica t, usuario u where e.idtematica = t.idtematica and e.idusuario = u.idusuario order by e.idusuario DESC")
             result = cursor.fetchall()
             connection.close()
         else:
-            cursor.execute("select e.idestampa, e.nombre, t.nombre, e.imagen1, e.calificacion, e.precio, u.nombreusuario from estampa e, tematica t, usuario u where e.idtematica = t.idtematica and e.idusuario = u.idusuario order by t.idtematica")
+            cursor.execute("select e.idestampa, e.nombre, t.nombre, e.imagen1, e.calificacion, e.precio, u.nombreusuario from estampa e, tematica t, usuario u where e.idtematica = t.idtematica and e.idusuario = u.idusuario order by t.idtematica DESC")
             result = cursor.fetchall()
             connection.close()
         #print(result)
         return result
     
-    def consultarLiquidacion(periodo:str):
+    def consultarEstampaSeleccionada():
         oracledb.init_oracle_client()
         connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
-        cursor.execute("select e.nombre ||' '|| e.apellido Estudiante, e.codestudiante codigo, un.nomunidad facultad, e.correo correo, " +
-                        "sum(trunc(mod((c.fechafin - c.fechainicio)*24,24))) Nohoras " +
-                        "from estudiante e, unidad u, unidad un, calendario c, participacionestudiante p, obra o " +
-                        "where e.codestudiante = p.codestudiante and e.codunidad = u.codunidad and " +
-                        "u.uni_codunidad = un.codunidad and c.conseccalendario = p.conseccalendario and " +
-                        "o.idobra = c.idobra and o.idperiodo like "+ periodo +" " +
-                        "group by e.nombre ||' '|| e.apellido , e.codestudiante , un.nomunidad, e.correo")
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select e.idestampa, e.nombre, e.descripcion, t.nombre, e.imagen1, e.imagen2, e.imagen3, e.calificacion, e.precio, u.nombreusuario from estampa e, tematica t, usuario u where e.idtematica = t.idtematica and e.idusuario = u.idusuario and e.idestampa ="+seleccion+"")
         result = cursor.fetchall()
         connection.close()
         return result
 
-    def obtenerSeleccionados(periodo:str):
+    def consultarModeloCamiseta():
         oracledb.init_oracle_client()
         connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
-        query = "select e.nombre || ' ' || e.apellido, e.codestudiante from participacionestudiante p,estudiante e, obra o where e.codestudiante = p.codestudiante and p.idtipocalen = 'SL' and o.idobra = p.idobra and o.idperiodo = "+periodo
-        cursor.execute(query)
+        cursor.execute("select c.idmodelocamiseta, c.modelo, c.stock, m.nombrematerial from modelocamiseta c, material m where m.idmaterial = c.idmaterial")
         result = cursor.fetchall()
+        print(result)
         connection.close()
         return result
-    
-    

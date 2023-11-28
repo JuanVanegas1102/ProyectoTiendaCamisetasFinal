@@ -13,12 +13,12 @@ insert into tipoUsuario values('002','Artista');
 
 -- Se insertan usuarios de Prueba
 
-insert into usuario values('1','001','Juanito1102','admin','Juan Esteban','Vanegas Rodriguez','juantheboss3@gmail.com','1234512345');
-insert into usuario values('2','002','DaVinciArtist','12345','Leonardo','DaVinci','leonardo1@gmail.com','3112252521');
-insert into usuario values('3','002','David1Paint','12346','David Santiago','Pinzon Mahecha','david1@gmail.com','3111415116');
-insert into usuario values('4','002','Percy2Master','contrasena','David Leonardo','Florez Percy','elpanda@gmail.com','3115496096');
-insert into usuario values('5','002','MichelangeloTurtle','password','Michelangelo','Buonarroti','michelangelo1475@gmail.com','3162662521');
-insert into usuario values('6','002','KojimaHill','stranding','Hideo','Kojima','silenthill@gmail.com','3112223421');
+insert into usuario values('1','001','Juanito1102','admin','Juan Esteban','Vanegas Rodriguez','juantheboss3@gmail.com','1234512345','999999999');
+insert into usuario values('2','002','DaVinciArtist','12345','Leonardo','DaVinci','leonardo1@gmail.com','3112252521','100000000');
+insert into usuario values('3','002','David1Paint','12346','David Santiago','Pinzon Mahecha','david1@gmail.com','3111415116','1000000');
+insert into usuario values('4','002','Percy2Master','contrasena','David Leonardo','Florez Percy','elpanda@gmail.com','3115496096','500000');
+insert into usuario values('5','002','MichelangeloTurtle','password','Michelangelo','Buonarroti','michelangelo1475@gmail.com','3162662521','100000');
+insert into usuario values('6','002','KojimaHill','stranding','Hideo','Kojima','silenthill@gmail.com','3112223421','250000');
 
 -- Se insertan tematicas para las estampas
 

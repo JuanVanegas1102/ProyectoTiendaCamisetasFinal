@@ -1,2 +1,2 @@
-start cmd /k IniciarAPI.bat
+IniciarAPI.bat
 IniciarPagina.bat

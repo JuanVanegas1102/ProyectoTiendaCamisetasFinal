@@ -2,7 +2,20 @@ export interface estampaResponse{
     data:Array<any>
 }
 
+export interface estampaSeleccionadaResponse{
+    data:Array<any>
+}
+
+
 export interface tematicaResponse{
+    data:Array<any>
+}
+
+export interface tallaResponse{
+    data:Array<any>
+}
+
+export interface modeloCamisetaResponse{
     data:Array<any>
 }
 
