@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { estampaSeleccionadaResponse, modeloCamisetaResponse, tallaResponse } from '../modelos/responses';
+import { estampaSeleccionadaResponse, modeloCamisetaResponse, stockResponse, tallaResponse } from '../modelos/responses';
 import { HttpClient } from '@angular/common/http';
 import { AdminService } from '../admin.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 export class PersonalizacionCamisetaComponent {
 
   listaEstampas : Array<any>
+  listaStock : Array<any>
+  formulario!: FormGroup;
   mensajeError:string;
   responseCode:number;
   hayError:boolean = false;
@@ -24,6 +26,14 @@ export class PersonalizacionCamisetaComponent {
     
   }
   ngOnInit(){
+
+    if(this.adminServicio.hayUsuarioLogeado){
+      this.router.navigate(['/personalizacion-camiseta'])
+    }else{
+      this.router.navigate(['/login'])
+    }
+
+
     this.http.get<estampaSeleccionadaResponse>("http://127.0.0.1:8000/listaEstampaSeleccionada").subscribe(
       {
         next:(res)=>{
@@ -56,6 +66,66 @@ export class PersonalizacionCamisetaComponent {
           console.log(error)
         }
       })
+      this.crearFormulario()
   }
+
+  mostrarError(mensaje:string){
+    this.hayError = true
+    this.mensajeError = mensaje
+  }
+
+  cambiarMaximaCantidad(value:any){
+
+    const datoTipoCamiseta = { 
+      seleccionTipoCamiseta: value.target.value
+    }
+
+    this.hayError = false;
+    console.log(datoTipoCamiseta);
   
+    this.http.post("http://127.0.0.1:8000/seleccionTipoCamiseta",datoTipoCamiseta).subscribe(
+      {
+        next: res => this.mostrarError("Envio exitoso!!!!"),
+        error: err => this.mostrarError("Error al enviar la categoria")
+      })
+
+      this.http.get<stockResponse>("http://127.0.0.1:8000/cantidadStock").subscribe(
+      {
+        next:(res)=>{
+          this.listaStock  = res.data
+          console.log(this.listaStock )
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+  }
+
+  agregarCarrito(){
+    
+    const datosFormulario = {
+      idmodelocamiseta:this.formulario.value.idmodelocamiseta,
+      idtalla:this.formulario.value.idtalla,
+      cantidad:this.formulario.value.cantidad,
+      colorCamiseta:this.formulario.value.colorCamiseta
+    }
+
+    this.hayError = false
+    console.log(datosFormulario)
+
+    this.http.post("http://127.0.0.1:8000/agregarCarrito",datosFormulario).subscribe(
+      {
+        next: res=> this.mostrarError("Envio exitoso!!!!"),
+        error: err => this.mostrarError("Error al enviar el formulario")
+      })
+  }
+
+  crearFormulario(){
+    this.formulario = this.fb.group({
+      idmodelocamiseta:['',Validators.required],
+      idtalla:['',Validators.required],
+      cantidad:['',Validators.required],
+      colorCamiseta:['',Validators.required]
+    })
+  }
 }

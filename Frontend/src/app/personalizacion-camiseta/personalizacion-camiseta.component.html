@@ -31,56 +31,72 @@
           <span>${{ estampa[8] }}</span>
           <i class="fa-solid fa-angle-right"></i>
         </div>
-
-        <div class="container-details-product">
-          <div class="form-group">
-            <label for="colour">Color</label>
-            <input type="color" id="colorpicker" value="#0000ff" />
-          </div>
-          <div class="form-group">
-            <label for="size">Talla</label>
-            <select name="size" id="size" formControlName="idtalla">
-              <option [ngValue]="null" disabled selected>
-                Escoge una talla
-              </option>
-              <option *ngFor="let talla of listaTallas" [ngValue]="talla[0]">
-                {{ talla[0] }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="size">Tipo y Material de la Camiseta</label>
-            <select name="size" id="size" formControlName="idmodelocamiseta">
-              <option [ngValue]="null" disabled selected>
-                Escoge un tipo y material
-              </option>
-              <option
-                *ngFor="let modelocamiseta of listaModeloCamiseta"
-                [ngValue]="modelocamiseta[0]"
+        <form novalidate [formGroup]="formulario">
+          <div class="container-details-product">
+            <div class="form-group">
+              <label for="colour">Color</label>
+              <input
+                type="color"
+                id="colorpicker"
+                value="#0000ff"
+                formControlName="colorCamiseta"
+              />
+            </div>
+            <div class="form-group">
+              <label for="size">Talla</label>
+              <select name="size" id="size" formControlName="idtalla">
+                <option [ngValue]="null" disabled selected>
+                  Escoge una talla
+                </option>
+                <option *ngFor="let talla of listaTallas" [ngValue]="talla[0]">
+                  {{ talla[0] }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="size">Tipo y Material de la Camiseta</label>
+              <select
+                name="size"
+                id="size"
+                formControlName="idmodelocamiseta"
+                (change)="cambiarMaximaCantidad($event)"
               >
-                {{ modelocamiseta[1] }} - {{ modelocamiseta[3] }}
-              </option>
-            </select>
+                <option [ngValue]="null" disabled selected>
+                  Escoge un tipo y material
+                </option>
+                <option
+                  *ngFor="let modelocamiseta of listaModeloCamiseta"
+                  [ngValue]="modelocamiseta[0]"
+                >
+                  {{ modelocamiseta[1] }} - {{ modelocamiseta[3] }}
+                </option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div class="container-add-cart">
-          <h4>Cantidad</h4>
-          <div class="container-quantity">
-            <input
-              type="number"
-              placeholder="1"
-              value="1"
-              min="1"
-              class="input-quantity"
-            />
+          <div class="container-add-cart">
+            <h4>Cantidad</h4>
+            <div class="container-quantity" *ngFor="let stock of listaStock">
+              <input
+                type="number"
+                placeholder="1"
+                value="1"
+                min="1"
+                max="stock[1]"
+                class="input-quantity"
+                formControlName="cantidad"
+              />
+            </div>
+            <button
+              class="btn-add-to-cart"
+              [disabled]="!formulario.valid"
+              (click)="agregarCarrito()"
+            >
+              <i class="fa-solid fa-plus"></i>
+              Añadir al carrito
+            </button>
           </div>
-          <button class="btn-add-to-cart">
-            <i class="fa-solid fa-plus"></i>
-            Añadir al carrito
-          </button>
-        </div>
-
+        </form>
         <div class="container-description">
           <div class="title-description">
             <h4>Descripción</h4>
@@ -107,6 +123,13 @@
           <div class="title-reviews">
             <h4>Calificacion: {{ estampa[7] }}</h4>
           </div>
+        </div>
+        <div
+          *ngIf="this.hayError"
+          class="alert alert-danger error"
+          role="alert"
+        >
+          {{ this.mensajeError }}
         </div>
       </div>
     </main>

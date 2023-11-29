@@ -8,8 +8,11 @@ class ConexionBD:
     tipoUsuario = "002"
     port = 1521
     categoriaCatalogo = 1
+    seleccionTipoCamiseta = str
     idUsuarioValido: str
     seleccionCatalogo = str
+    codigoFactura = str
+    total = str
     
     def validarLogin(correo,contrasena):
         oracledb.init_oracle_client()
@@ -22,14 +25,53 @@ class ConexionBD:
         for r in result:
             if r[1] == correo and r[2] == contrasena:
                 ConexionBD.idUsuarioValido = r[0]
+                ConexionBD.codigoFactura = ConexionBD.maximaFactura()
+                ConexionBD.nuevaFactura()
                 return True
         return False
+    
+    def maximaFactura():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "SELECT COUNT(codigoFactura)+1 FROM factura"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
+    
+    def nuevaFactura():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "INSERT INTO factura values('"+str(ConexionBD.codigoFactura)+"','"+str(ConexionBD.idUsuarioValido)+"')"
+        result = cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return result
+        
+    def maximoDetalleFactura():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "SELECT COUNT(iddetallefactura)+1 FROM detallefactura"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
+    
+    def maximoDatoFactura():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "SELECT COUNT(iddatosfactura)+1 FROM datosfactura"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result[0][0]
     
     def maximoUsuario():
         oracledb.init_oracle_client()
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
-        query = "SELECT MAX(idUsuario)+1 FROM usuario"
+        query = "SELECT COUNT(idUsuario)+1 FROM usuario"
         cursor.execute(query)
         result = cursor.fetchall()
         return result[0][0]
@@ -38,7 +80,7 @@ class ConexionBD:
         oracledb.init_oracle_client()
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
-        query = "SELECT MAX(idestampa)+1 FROM estampa"
+        query = "SELECT COUNT(idestampa)+1 FROM estampa"
         cursor.execute(query)
         result = cursor.fetchall()
         return result[0][0]
@@ -95,10 +137,29 @@ class ConexionBD:
         ConexionBD.categoriaCatalogo = categoria
         return categoria
     
+    def seleccionTipo(seleccionTipoCamiseta):
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccionTipoCamiseta = seleccionTipoCamiseta[-6:]
+        ConexionBD.seleccionTipoCamiseta = seleccionTipoCamiseta
+        print(seleccionTipoCamiseta)
+        return seleccionTipoCamiseta
+    
     def estampaSeleccionada(seleccion):
         ConexionBD.seleccionCatalogo = seleccion
         print(seleccion)
         return seleccion
+    
+    def consultarStock():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        cursor.execute("select idmodelocamiseta, stock from modelocamiseta where idmodelocamiseta like '"+str(ConexionBD.seleccionTipoCamiseta)+"'")
+        result = cursor.fetchall()
+        connection.close()
+        print(result)
+        return result
     
     def consultarEstampas():
         oracledb.init_oracle_client()
@@ -137,5 +198,89 @@ class ConexionBD:
         cursor.execute("select c.idmodelocamiseta, c.modelo, c.stock, m.nombrematerial from modelocamiseta c, material m where m.idmaterial = c.idmaterial")
         result = cursor.fetchall()
         print(result)
+        connection.close()
+        return result
+    
+    def precioEstampa():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion_estampa = ConexionBD.seleccionCatalogo
+        query = "SELECT precio FROM estampa WHERE idestampa ="+str(seleccion_estampa)+""
+        cursor.execute(query)
+        result = cursor.fetchall()
+        print(result)
+        return result[0][0]
+    
+    def agregarCarrito(idmodelocamiseta,idtalla,cantidad,colorcamiseta):
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        print(ConexionBD.maximaEstampa())
+        subtotal = (ConexionBD.precioEstampa() * cantidad)
+        print(subtotal)
+        query = "INSERT INTO detallefactura values('"+str(ConexionBD.maximoDetalleFactura())+"','"+str(ConexionBD.codigoFactura)+"','"+idmodelocamiseta+"','"+idtalla+"','"+str(ConexionBD.seleccionCatalogo)+"','"+str(cantidad)+"','"+colorcamiseta+"','"+str(subtotal)+"')"
+        result = cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return result
+    
+    def consultarCarrito():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select e.imagen1, e.nombre, t.modelo, m.nombrematerial, d.idtalla, d.cantidad, d.colorcamiseta, d.subtotal, d.iddetallefactura from estampa e, modelocamiseta t, material m, detallefactura d where e.idestampa = d.idestampa and t.idmodelocamiseta = d.idmodelocamiseta and m.idmaterial = t.idmaterial and d.codigofactura ="+str(ConexionBD.codigoFactura)+"")
+        result = cursor.fetchall()
+        connection.close()
+        return result
+    
+    def totalCarrito():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select SUM(subtotal) from detallefactura where codigofactura ="+str(ConexionBD.codigoFactura)+"")
+        result = cursor.fetchall()
+        connection.close()
+        return result
+    
+    def totalCarritointerno():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select SUM(subtotal) from detallefactura where codigofactura ="+str(ConexionBD.codigoFactura)+"")
+        result = cursor.fetchall()
+        connection.close()
+        return result[0][0]
+    
+    def eliminarProducto(datoEliminacion):
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "DELETE FROM detallefactura WHERE iddetallefactura ="+str(datoEliminacion)+""
+        result = cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return result
+    
+    def consultarCredito():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select credito from usuario where idusuario ="+str(ConexionBD.idUsuarioValido)+"")
+        result = cursor.fetchall()
+        connection.close()
+        return result
+    
+    def agregarDatosFactura(numDocumento,direccionEntrega):
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        query = "INSERT INTO datosfactura values('"+str(ConexionBD.maximoDatoFactura())+"','"+str(ConexionBD.codigoFactura)+"','"+str(ConexionBD.totalCarritointerno())+"','"+numDocumento+"','"+direccionEntrega+"','En proceso')"
+        result = cursor.execute(query)
+        connection.commit()
         connection.close()
         return result

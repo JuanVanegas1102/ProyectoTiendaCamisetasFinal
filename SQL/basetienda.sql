@@ -1,8 +1,11 @@
 /*==============================================================*/
 /* DBMS name:      ORACLE Version 11g                           */
-/* Created on:     28/11/2023 01:52:40 a. m.                    */
+/* Created on:     28/11/2023 10:56:53 p. m.                    */
 /*==============================================================*/
 
+
+alter table DATOSFACTURA
+   drop constraint FK_DATOSFAC_ANEXA_FACTURA;
 
 alter table DETALLEFACTURA
    drop constraint FK_DETALLEF_AGREGA_ESTAMPA;
@@ -30,6 +33,10 @@ alter table MODELOCAMISETA
 
 alter table USUARIO
    drop constraint FK_USUARIO_ES_TIPOUSUA;
+
+drop index ANEXA_FK;
+
+drop table DATOSFACTURA cascade constraints;
 
 drop index ESPECIFICA_FK;
 
@@ -68,6 +75,27 @@ drop index ES_FK;
 drop table USUARIO cascade constraints;
 
 /*==============================================================*/
+/* Table: DATOSFACTURA                                          */
+/*==============================================================*/
+create table DATOSFACTURA 
+(
+   IDDATOSFACTURA       VARCHAR2(8)          not null,
+   CODIGOFACTURA        VARCHAR2(12)         not null,
+   PRECIOFINAL          NUMBER(9,2)          not null,
+   NUMDOCUMENTO         VARCHAR2(10)         not null,
+   DIRECCIONENTREGA     VARCHAR2(60)         not null,
+   ESTADO               VARCHAR2(20)         not null,
+   constraint PK_DATOSFACTURA primary key (IDDATOSFACTURA)
+);
+
+/*==============================================================*/
+/* Index: ANEXA_FK                                              */
+/*==============================================================*/
+create index ANEXA_FK on DATOSFACTURA (
+   CODIGOFACTURA ASC
+);
+
+/*==============================================================*/
 /* Table: DETALLEFACTURA                                        */
 /*==============================================================*/
 create table DETALLEFACTURA 
@@ -77,8 +105,9 @@ create table DETALLEFACTURA
    IDMODELOCAMISETA     VARCHAR2(10)         not null,
    IDTALLA              VARCHAR2(3)          not null,
    IDESTAMPA            VARCHAR2(6)          not null,
-   CANTIDAD             NUMBER(5),
+   CANTIDAD             NUMBER(5)            not null,
    COLORCAMISETA        VARCHAR2(7)          not null,
+   SUBTOTAL             NUMBER(20,2)         not null,
    constraint PK_DETALLEFACTURA primary key (IDDETALLEFACTURA)
 );
 
@@ -150,10 +179,6 @@ create table FACTURA
 (
    CODIGOFACTURA        VARCHAR2(12)         not null,
    IDUSUARIO            VARCHAR2(8)          not null,
-   PRECIOFINAL          NUMBER(9,2)          not null,
-   NUMDOCUMENTO         NUMBER(10)           not null,
-   DIRECCIONENTREGA     VARCHAR2(60)         not null,
-   ESTADO               VARCHAR2(20)         not null,
    constraint PK_FACTURA primary key (CODIGOFACTURA)
 );
 
@@ -248,6 +273,10 @@ create table USUARIO
 create index ES_FK on USUARIO (
    IDTIPOUSUARIO ASC
 );
+
+alter table DATOSFACTURA
+   add constraint FK_DATOSFAC_ANEXA_FACTURA foreign key (CODIGOFACTURA)
+      references FACTURA (CODIGOFACTURA);
 
 alter table DETALLEFACTURA
    add constraint FK_DETALLEF_AGREGA_ESTAMPA foreign key (IDESTAMPA)

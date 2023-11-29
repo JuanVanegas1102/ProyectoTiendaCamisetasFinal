@@ -69,4 +69,12 @@ insert into estampa values('5','5','005','Beach Bear XX','Oso con ojos en X, sen
 insert into estampa values('6','6','006','Enjoy the moment','Cara feliz color amarillo, con frase enjoy the moment.','https://m.media-amazon.com/images/I/71k3ttgVjtL._SX679_.jpg','https://m.media-amazon.com/images/I/41aZQB0zVSL._SX679_.jpg','https://m.media-amazon.com/images/I/41mS7vkdXFL._SY741_.jpg','81','50500','Activo');
 insert into estampa values('7','3','007','Christmas T-Rex','Tyrannosaurus Rex poniendo una estrella en la punta del arbol.','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star-green-apple-t-shirt-teeturtle-full-1-1000x1000.jpg','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star-green-apple-mens-t-shirt-teeturtle-1-1000x1000.jpg','https://teeturtle-s3-web.s3.amazonaws.com/accounts/1/products/1986199880267/T-Rex-Christmas-Star_800x800_SEPS-1000x1000.jpg','87','42370','Activo');
 
+-- Se inserta factura de prueba
+
+insert into factura values('1','1');
+
+-- Se inserta detallefactura de prueba
+
+insert into detallefactura values('1','1','CAM012','L','1','20','#00FF00','20202202020');
+
 commit;

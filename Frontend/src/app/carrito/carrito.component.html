@@ -1,0 +1,71 @@
+<header>
+  <a class="nav-link" routerLink="/">Volver al inicio</a>
+</header>
+<div class="table-users">
+  <div class="header">Carrito de Compra</div>
+
+  <table cellspacing="0">
+    <tr>
+      <th>Imagen</th>
+      <th>Nombre Estampa</th>
+      <th>Tipo Camiseta</th>
+      <th>Material Camiseta</th>
+      <th>Talla</th>
+      <th>Cantidad</th>
+      <th>Color</th>
+      <th>Subtotal</th>
+      <th>Eliminar</th>
+    </tr>
+
+    <tr *ngFor="let carrito of listaCarrito">
+      <td><img src="{{ carrito[0] }}" alt="" /></td>
+      <td>{{ carrito[1] }}</td>
+      <td>{{ carrito[2] }}</td>
+      <td>{{ carrito[3] }}</td>
+      <td>{{ carrito[4] }}</td>
+      <td>{{ carrito[5] }}</td>
+      <td>{{ carrito[6] }}</td>
+      <td>{{ carrito[7] }}</td>
+      <td>
+        <button class="btn-add-to-cart" (click)="eliminarProducto(carrito[8])">
+          <i class="fa-solid fa-plus"></i>
+          Eliminar
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="8" *ngFor="let total of listaTotal">
+        Total: {{ total[0] }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="8" *ngFor="let credito of listaCredito">
+        Credito Disponible: {{ credito[0] }}
+      </td>
+    </tr>
+  </table>
+</div>
+<button (click)="toggle()" id="bt">Comprar</button>
+<div>
+  <ng-container *ngIf="show">
+    <form novalidate [formGroup]="formulario">
+      <div class="contenedor-input">
+        <span class="icono"><i class="fa-solid fa-user"></i></span>
+        <input type="text" formControlName="numDocumento" />
+        <label for="#">Documento de Identidad</label>
+      </div>
+      <div class="contenedor-input">
+        <span class="icono"><i class="fa-solid fa-user"></i></span>
+        <input type="text" formControlName="direccionEntrega" />
+        <label for="#">Direccion de entrega</label>
+      </div>
+      <button
+        [disabled]="!formulario.valid"
+        class="btn"
+        (click)="enviarFormulario()"
+      >
+        Realizar Compra
+      </button>
+    </form>
+  </ng-container>
+</div>

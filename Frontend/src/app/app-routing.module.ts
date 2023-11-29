@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { CreacionEstampaComponent } from './creacion-estampa/creacion-estampa.component';
 import { PersonalizacionCamisetaComponent } from './personalizacion-camiseta/personalizacion-camiseta.component';
+import { CarritoComponent } from './carrito/carrito.component';
 
 const routes: Routes = [
   {path:'',component:InicioPaginaComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'registro', component:RegistroComponent},
   {path:'creacionEstampa', component:CreacionEstampaComponent},
   {path:'personalizacionCamiseta', component:PersonalizacionCamisetaComponent},
+  {path:'carrito', component:CarritoComponent},
   {
     path:'Admin', component:AdminComponent,
     children:[

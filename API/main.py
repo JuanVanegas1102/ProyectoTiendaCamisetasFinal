@@ -32,11 +32,27 @@ class estampa(BaseModel):
     precio:float
     idtematica: str
 
+class detallefactura(BaseModel):
+    idmodelocamiseta: str
+    idtalla : str
+    cantidad: int
+    colorCamiseta: str
+    
+class datosfactura(BaseModel):
+    numDocumento: str
+    direccionEntrega : str
+
 class categoria(BaseModel):
     categoria: int
 
+class seleccionTipoCamiseta(BaseModel):
+    seleccionTipoCamiseta: str
+
 class seleccion(BaseModel):
     seleccion: str
+    
+class eliminar(BaseModel):
+    datoEliminacion: str
 
 app = FastAPI()
 
@@ -61,10 +77,40 @@ async def root():
     result = ConexionBD.consultarEstampas()
     return {"data":result}
 
+@app.get('/listaCarrito')
+async def root():
+    result = ConexionBD.consultarCarrito()
+    return {"data":result}
+
+@app.get('/totalCarrito')
+async def root():
+    result = ConexionBD.totalCarrito()
+    return {"data":result}
+
+@app.get('/creditoUsuario')
+async def root():
+    result = ConexionBD.consultarCredito()
+    return {"data":result}
+
+@app.post('/eliminarProducto')
+async def root(s:eliminar):
+    result = ConexionBD.eliminarProducto(s.datoEliminacion)
+    return {"message":"hola mi loco"}
+
 @app.post('/numCategoria')
 async def root(s:categoria):
     result = ConexionBD.consultarCategoria(s.categoria)
     return {"message":"hola mi loco"}
+
+@app.post('/seleccionTipoCamiseta')
+async def root(s:seleccionTipoCamiseta):
+    result = ConexionBD.seleccionTipo(s.seleccionTipoCamiseta)
+    return {"message":"hola mi loco"}
+
+@app.get('/cantidadStock')
+async def root():
+    result = ConexionBD.consultarStock()
+    return {"data":result}
 
 @app.post('/estampaSeleccionada')
 async def root(s:seleccion):
@@ -99,6 +145,16 @@ async def root(s:usuario):
 @app.post('/agregarEstampa')
 async def root(s:estampa):
     ConexionBD.agregarEstampa(s.nombre,s.descripcion,s.imagen1,s.imagen2,s.imagen3,s.precio,s.idtematica)
+    return {"message":"hola mi loco"}
+
+@app.post('/agregarCarrito')
+async def root(s:detallefactura):
+    ConexionBD.agregarCarrito(s.idmodelocamiseta,s.idtalla,s.cantidad,s.colorCamiseta)
+    return {"message":"hola mi loco"}
+
+@app.post('/agregarDatosFactura')
+async def root(s:datosfactura):
+    ConexionBD.agregarDatosFactura(s.numDocumento,s.direccionEntrega)
     return {"message":"hola mi loco"}
 
 @app.post('/validate')
