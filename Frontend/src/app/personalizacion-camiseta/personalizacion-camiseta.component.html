@@ -8,7 +8,6 @@
   </head>
   <body *ngFor="let estampa of listaEstampas">
     <header>
-      <h1>Logo</h1>
       <a class="nav-link" routerLink="/">Volver al inicio</a>
     </header>
     <div class="container-title">{{ estampa[1] }}</div>
@@ -86,7 +85,9 @@
                 class="input-quantity"
                 formControlName="cantidad"
               />
+              <h5>Cantidad maxima: {{ stock[1] }}</h5>
             </div>
+
             <button
               class="btn-add-to-cart"
               [disabled]="!formulario.valid"

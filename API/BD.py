@@ -161,6 +161,16 @@ class ConexionBD:
         print(result)
         return result
     
+    def consultarStockInterno():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        cursor.execute("select idmodelocamiseta, stock from modelocamiseta where idmodelocamiseta like '"+str(ConexionBD.seleccionTipoCamiseta)+"'")
+        result = cursor.fetchall()
+        connection.close()
+        print(result)
+        return result[0][0]
+    
     def consultarEstampas():
         oracledb.init_oracle_client()
         connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
@@ -275,12 +285,48 @@ class ConexionBD:
         connection.close()
         return result
     
+    def consultarCreditoInterno():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user= ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        seleccion = ConexionBD.seleccionCatalogo
+        cursor.execute("select credito from usuario where idusuario ="+str(ConexionBD.idUsuarioValido)+"")
+        result = cursor.fetchall()
+        connection.close()
+        return result[0][0]
+    
+    def descontarCredito():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        nuevoCredito = (ConexionBD.consultarCreditoInterno()- ConexionBD.totalCarritointerno())
+        query = "UPDATE usuario SET credito = "+str(nuevoCredito)+"WHERE idusuario = "+ConexionBD.idUsuarioValido+""
+        result = cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return nuevoCredito
+    
+    def descontarStock():
+        oracledb.init_oracle_client()
+        connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
+        cursor = connection.cursor()
+        nuevoStock = (ConexionBD.consultarStockInterno()- ConexionBD.totalCarritointerno())
+        query = "UPDATE modelocamiseta SET stock = "+str(nuevoStock)+"WHERE idmodelocamiseta = "+ConexionBD.seleccionTipoCamiseta+""
+        result = cursor.execute(query)
+        connection.commit()
+        connection.close()
+        return nuevoStock
+    
+    
     def agregarDatosFactura(numDocumento,direccionEntrega):
         oracledb.init_oracle_client()
         connection = oracledb.connect(user=ConexionBD.user, password=ConexionBD.password,host="localhost", port = ConexionBD.port, service_name="xe")
         cursor = connection.cursor()
         query = "INSERT INTO datosfactura values('"+str(ConexionBD.maximoDatoFactura())+"','"+str(ConexionBD.codigoFactura)+"','"+str(ConexionBD.totalCarritointerno())+"','"+numDocumento+"','"+direccionEntrega+"','En proceso')"
         result = cursor.execute(query)
+        ConexionBD.descontarCredito()
+        ConexionBD.codigoFactura = ConexionBD.maximaFactura()
+        ConexionBD.nuevaFactura()
         connection.commit()
         connection.close()
         return result
